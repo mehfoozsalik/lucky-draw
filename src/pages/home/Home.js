@@ -1,22 +1,18 @@
 import "./Home.css"
 import "tabler-react/dist/Tabler.css"
-import bgVedio from "../../JSON/CouponNumber.mp4"
+
 import { Grid } from "tabler-react"
 import React, { Component } from "react"
 import PreviouslyDrawnItemsBlock from "../../components/PreviouslyDrawnItemsBlock"
 import TextLoop from "react-text-loop"
 import data from "../../JSON/luckdraw.json"
-
 class App extends Component {
   constructor(props) {
-    const newfile = data.map((i) => {
-      return (i.CouponID = i.CouponID.slice(0, 17))
-    })
-
     super(props)
+
     this.state = {
-      items: newfile,
-      currentItems: newfile,
+      items: [],
+      currentItems: [],
       pastDrawnItems: [],
       result: "",
       name: "",
@@ -35,11 +31,28 @@ class App extends Component {
       },
     }
   }
+  static getDerivedStateFromProps(props, state) {
+    const newfiles = props.file.map((i) => {
+      return (i.data[0] = i.data[0].slice(0, 17))
+    })
+    return {
+      items: newfiles,
+      currentItems: newfiles,
+    }
+  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(this.props.file)
+  //   if (nextProps.file !== this.props.file) {
+  //     const newfiles = this.props.file.map((i) => {
+  //       return (i.data[0] = i.data[0].slice(0, 17))
+  //     })
+  //     this.setState({ ...this.state, items: newfiles, currentItems: newfiles })
+  //   }
+  // }
 
   sleep = (time) => {
     return new Promise((resolve) => setTimeout(resolve, time))
   }
-
   randomDrawItem = () => {
     const { currentItems, showTextAnimation, removeDrawnItem } = this.state
     this.setState({
@@ -56,17 +69,15 @@ class App extends Component {
     }
 
     let maxItemIndex = currentItems.length
-    const randomIndex = Math.floor(Math.random() * maxItemIndex)
-    const newdatata = data.filter((i) => {
-      return currentItems[randomIndex] === i.CouponID
+    const randomIndex = Math.floor(Math.random() * (maxItemIndex - 1 + 1) + 1)
+    const [newdatata] = this.props.file.filter((i) => {
+      return currentItems[randomIndex] === i.data[0]
     })
-    console.log(newdatata)
     this.sleep(showTextAnimation ? 3000 : 0).then(() => {
       this.setState({
         ...this.state,
         result: currentItems[randomIndex],
-        pastDrawnItems: [...this.state.pastDrawnItems, newdatata[0]],
-        name: newdatata[0].Customer,
+        pastDrawnItems: [...this.state.pastDrawnItems, newdatata],
         showResult: true,
         disableDrawButton: false,
       })
@@ -81,15 +92,8 @@ class App extends Component {
   }
 
   render() {
-    const {
-      items,
-      result,
-      newdatata,
-      disableDrawButton,
-      name,
-      pastDrawnItems,
-      showResult,
-    } = this.state
+    const { items, result, disableDrawButton, pastDrawnItems, showResult } =
+      this.state
 
     return (
       <div className='draw-block'>
@@ -104,7 +108,7 @@ class App extends Component {
                     className='draw-text'
                     interval={100}
                     springConfig={{ stiffness: 180, damping: 8 }}
-                    children={items}
+                    children={this.props.prompt ? items : "upload the file"}
                   />
                 )}
 
@@ -117,7 +121,7 @@ class App extends Component {
               block
               name='drawButton'
               className='drawing-btn '
-              onClick={disableDrawButton ? {} : this.randomDrawItem}>
+              onClick={disableDrawButton ? " " : this.randomDrawItem}>
               {disableDrawButton ? "Wait" : "Press"}
             </button>
           </div>
