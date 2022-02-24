@@ -1,4 +1,261 @@
+* {
+  font-size: 62.5%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   width: 100%;
   height: 100%;
+}
+button {
+  border: none;
+  background: none;
+}
+p {
+  font-size: 0.6rem;
+}
+.app {
+  background: linear-gradient(
+    to top right,
+    rgb(106, 182, 248),
+    rgb(230, 238, 253)
+  );
+  position: relative;
+}
+.refImage-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.refImage-container-off {
+  height: 0;
+  top: -100%;
+  z-index: 9999;
+  opacity: 0;
+}
+.refImage {
+  width: 100%;
+}
+.refImage-container svg {
+  cursor: pointer;
+  position: absolute;
+  right: -1rem;
+  top: -1.8rem;
+  width: 2rem;
+}
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  margin-left: 0.4rem;
+  width: 6rem;
+}
+.aside-upload {
+  margin-right: 0.4rem;
+}
+.div-upload {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.display-fileupload {
+  margin-right: 0.4rem;
+  font-size: 0.8rem;
+}
+.btn-fileupload,
+.display-fileupload {
+  margin-top: -2rem;
+}
+.btn-fileupload svg {
+  cursor: pointer;
+  width: 1.2rem;
+}
+
+.btn:hover {
+  transition: all 0.3s ease-in;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.draw-block {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.draw-text {
+  font-size: 3.2rem;
+}
+.rotatingMachine {
+  font-size: 2rem;
+  color: rgb(32, 32, 32);
+  background: rgb(213, 244, 255);
+  border: groove 0.2rem rgb(166, 168, 2);
+  width: 100%;
+  height: 4rem;
+  border-radius: 5rem;
+  overflow: hidden;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  letter-spacing: 0.4rem;
+  padding: 0 1rem;
+  font-weight: 700;
+}
+.draw-section {
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+  position: relative;
+}
+.draw-section::after {
+  content: "Coupon ID";
+  position: absolute;
+  top: 1rem;
+  font-size: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1rem 1rem 0 0;
+  width: auto;
+  padding: 0 2rem;
+  height: 2rem;
+  color: rgb(0, 0, 0);
+  background-color: rgb(196, 239, 255);
+}
+.drawing {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+.drawing-btn {
+  margin-bottom: 2rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: rgb(255, 39, 39);
+  background: radial-gradient(
+    107.46% 107.46% at 35.64% 12.94%,
+    #ff1b1b 0%,
+    #430000 100%
+  );
+  font-size: 1rem;
+  box-shadow: inset 8px 12px 16px -2px rgba(255, 255, 255, 0.678);
+  border: 0.2rem groove rgb(255, 216, 180);
+  transition: all 0.2s ease-in-out;
+}
+.drawing-btn:active {
+  box-shadow: inset 4px 8px 16px 12px rgba(0, 0, 0, 0.522);
+}
+.clear-btn {
+  position: absolute;
+  right: 1rem;
+  top: 0.8rem;
+  z-index: 9;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(209, 223, 235);
+  border-radius: 1rem;
+  width: 5.5rem;
+  padding: 0 0.4rem;
+}
+.clear-btn svg {
+  width: 1.2rem;
+}
+.clear-btn span {
+  font-size: 1rem;
+  font-weight: 500;
+  padding-right: 0.6rem;
+}
+.table-prev {
+  height: 20rem;
+}
+.winner-name {
+  position: absolute;
+  width: 100%;
+  top: 9%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(9, 23, 143);
+  opacity: 1;
+  transition: all 0.4s ease-in;
+}
+.winner-name-off {
+  top: -10%;
+  opacity: 0;
+}
+.result-section {
+  text-align: center;
+  height: 30rem;
+}
+.card-body {
+  height: 100%;
+  overflow: hidden;
+}
+.past-drawn-block {
+  background: rgba(255, 255, 255, 0);
+  height: 20rem;
+  border-radius: 0.8rem;
+}
+.table {
+  height: 100%;
+  margin-top: -1rem;
+  border-radius: 0.4rem;
+}
+.main-table {
+  height: 100%;
+  overflow: auto;
+}
+.row-table {
+  margin: 0.2rem 0;
+  background: rgba(236, 236, 236, 0.808);
+}
+.row-table {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.row-table span {
+  font-weight: 500;
+  line-height: 1;
+  font-size: 0.8rem;
+}
+.row-table-name {
+  display: flex;
+  margin-left: 1rem;
+  justify-content: start;
+  flex: 0.5;
+}
+.row-table-id {
+  display: flex;
+  margin-right: 1rem;
+  flex: 0.5;
+  justify-content: end;
+}
+.copyright-text {
+  font-size: 0.6rem;
+  text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .row-table-name {
+    flex-direction: column;
+    align-items: start;
+  }
+  .row-table-id {
+    flex-direction: column;
+    align-items: start;
+  }
 }

@@ -1,6 +1,6 @@
 const Copyright = () => {
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className='copyright-text'>
       Copyright © 2021 - {new Date().getFullYear()}
       {". "}
       All rights reserved.
