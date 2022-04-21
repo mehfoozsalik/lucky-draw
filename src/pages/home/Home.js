@@ -10,6 +10,7 @@ class App extends Component {
       items: [],
       currentItems: [],
       pastDrawnItems: [],
+      previousDrawnCheck: [],
       result: "",
       winerName: "",
       showTextAnimation: true,
@@ -27,7 +28,17 @@ class App extends Component {
       },
     }
   }
-
+  // componentDidUpdate() {
+  //   if (
+  //     this.state.currentItems.length ===
+  //     this.state.previousDrawnCheck.length < 1
+  //   ) {
+  //     this.setState({
+  //       showResult: false,
+  //       disableDrawButton: true,
+  //     })
+  //   }
+  // }
   static getDerivedStateFromProps(props, state) {
     if (props.file) {
       const newfiles = props.file.map((i) => {
@@ -53,46 +64,54 @@ class App extends Component {
     return new Promise((resolve) => setTimeout(resolve, time))
   }
   randomDrawItem = () => {
-    const { currentItems, showTextAnimation, removeDrawnItem } = this.state
+    const {
+      currentItems,
+      showTextAnimation,
+      removeDrawnItem,
+      previousDrawnCheck,
+    } = this.state
     this.setState({
       ...this.state,
       showResult: false,
       disableDrawButton: true,
     })
-    // if (currentItems.length <= 0) {
-    //   const copyCurrentItems = [...this.state.currentItems]
-    //   copyCurrentItems.splice(randomIndex, 1)
-    //   this.setState({
-    //     currentItems: copyCurrentItems,
-    //   })
-    // }
 
     let maxItemIndex = currentItems.length
-    const randomIndex = Math.floor(Math.random() * (maxItemIndex - 1 + 1) + 1)
+    let min = 1
+    let randomIndex
+    let p
+    do {
+      let number = Math.floor(Math.random() * (maxItemIndex - min + 1)) + min
+      p = previousDrawnCheck.includes(number)
+      if (!p) {
+        previousDrawnCheck.push(number)
+        randomIndex = number
+      }
+    } while (p)
     const [newdatata] = this.props.file.filter((i) => {
       return currentItems[randomIndex] === i.data[0]
     })
-    this.sleep(showTextAnimation ? 3000 : 0).then(() => {
-      console.log(newdatata)
-      if (this.state.items[0]) {
+
+    if (this.state.items[0] || newdatata?.data[1]) {
+      this.sleep(showTextAnimation ? 3000 : 0).then(() => {
         this.setState({
           ...this.state,
           result: currentItems[randomIndex],
-          winerName: newdatata.data[1],
+          winerName: newdatata?.data[1],
           pastDrawnItems: [...this.state.pastDrawnItems, newdatata],
           showResult: true,
           disableDrawButton: false,
         })
-      } else {
-        this.setState({
-          ...this.state,
-          result: [],
-          pastDrawnItems: [],
-          showResult: false,
-          disableDrawButton: false,
-        })
-      }
-    })
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        result: [],
+        pastDrawnItems: [],
+        showResult: false,
+        disableDrawButton: false,
+      })
+    }
     if (removeDrawnItem) {
       const copyCurrentItems = [...this.state.currentItems]
       copyCurrentItems.splice(randomIndex, 1)
